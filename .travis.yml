@@ -5,6 +5,7 @@ script:
 - bin/test
 after_success:
 - bin/build-all.sh
+- bin/generate_description.sh
 deploy:
   provider: releases
   api_key:
@@ -15,6 +16,7 @@ deploy:
   - out/manifest-generator_linux_amd64
   - out/manifest-generator_windows_386.exe
   - out/manifest-generator_windows_amd64.exe
+  - repo-index.yml
   on:
     tags: true
     all_branches: true
