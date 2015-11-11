@@ -1,3 +1,4 @@
 manifest.yml
 /out
 /bin/tools
+/composer.phar

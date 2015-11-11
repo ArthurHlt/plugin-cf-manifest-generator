@@ -2,7 +2,7 @@
 CURRENTDIR=`pwd`
 melody_dir="$CURRENTDIR/bin/tools"
 melody_file="$melody_dir/melody.phar"
-composer_file="$melody_dir/composer.phar"
+composer_file="$CURRENTDIR/composer.phar"
 if [ ! -f $melody_file ]
 then
     echo "Melody not found."
