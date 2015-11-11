@@ -2,12 +2,15 @@
 CURRENTDIR=`pwd`
 melody_dir="$CURRENTDIR/bin/tools"
 melody_file="$melody_dir/melody.phar"
+composer_file="$melody_dir/composer.phar"
 if [ ! -f $melody_file ]
 then
     echo "Melody not found."
     echo "Downloading melody ..."
     mkdir -p $melody_dir
     curl http://get.sensiolabs.org/melody.phar -o $melody_file
+    echo "Downloading composer ..."
+    curl https://getcomposer.org/composer.phar -o $composer_file
 fi
 
 if [ ! -f "$CURRENTDIR/out/manifest-generator_linux_amd64" ]
