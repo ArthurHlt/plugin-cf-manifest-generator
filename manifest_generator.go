@@ -6,6 +6,7 @@ import (
 	"github.com/cloudfoundry/cli/plugin"
 	"github.com/ArthurHlt/plugin-cf-manifest-generator/mg"
 	"os"
+	"github.com/daviddengcn/go-colortext"
 )
 
 /*
@@ -28,7 +29,7 @@ func (c *BasicPlugin) Run(cliConnection plugin.CliConnection, args []string) {
 	generator := mg.NewGenerator(*manifestPath, cliConnection)
 	err = generator.Generate()
 	checkError(err)
-	fmt.Println("Manifest generated in " + generator.ManifestPath)
+	fmt.Println("Manifest generated in " + generator.Session.ManifestPath)
 
 }
 
@@ -61,8 +62,12 @@ func (c *BasicPlugin) GetMetadata() plugin.PluginMetadata {
 }
 func checkError(err error) {
 	if err != nil {
-		fmt.Println(fmt.Sprintf("error: %v", err))
+		fmt.Print("error: ")
+		ct.Foreground(ct.Red, false)
+		fmt.Println(fmt.Sprintf("%v", err))
+		ct.ResetColor()
 		os.Exit(1)
+
 	}
 }
 func main() {

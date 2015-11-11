@@ -1,13 +1,13 @@
 package mg
 import (
 	"github.com/cloudfoundry/cli/plugin"
-	"github.com/cloudfoundry/cli/cf/manifest"
+	"github.com/ArthurHlt/plugin-cf-manifest-generator/mg/manifest"
 	"fmt"
 	"strconv"
-	"strings"
 	"errors"
 	"bufio"
 	"os"
+	"github.com/daviddengcn/go-colortext"
 )
 
 type StepDomain struct {
@@ -15,12 +15,10 @@ type StepDomain struct {
 	domains []string
 }
 
-func NewStepDomain(cliConnection plugin.CliConnection, appManifest manifest.AppManifest, manifestPath, appName string) *StepDomain {
+func NewStepDomain(cliConnection plugin.CliConnection, appManifest *manifest.Manifest) *StepDomain {
 	stepDomain := new(StepDomain)
 	stepDomain.appManifest = appManifest
 	stepDomain.cliConnection = cliConnection
-	stepDomain.manifestPath = manifestPath
-	stepDomain.appName = appName
 	return stepDomain
 }
 
@@ -36,7 +34,7 @@ func (s *StepDomain) Run() error {
 		fmt.Println(strconv.Itoa(num) + ". " + domain)
 	}
 	for true {
-		fmt.Print(fmt.Sprintf("What is your domain <%s> ? ", domains[0]))
+		fmt.Print(fmt.Sprintf("Which domain do you want <%s> ? ", domains[0]))
 		domainBytes, _, err := reader.ReadLine()
 		if err != nil {
 			return err
@@ -47,16 +45,22 @@ func (s *StepDomain) Run() error {
 		}
 		domain, err = s.findDomain(domain)
 		if err != nil {
-			fmt.Println(fmt.Sprintf("%v", err))
+			showError(err)
 			continue
 		}
-		fmt.Print(fmt.Sprintf("What is your host <%s> ? ", s.appName))
+		fmt.Print(fmt.Sprintf("What is your host <%s> ? ", session.AppName))
 		hostBytes, _, err := reader.ReadLine()
 		host := string(hostBytes)
 		if (host == "") {
-			host = s.appName
+			host = session.AppName
 		}
-		s.appManifest.Domain(s.appName, host, domain)
+		s.appManifest.Domain(session.AppName, host, domain)
+		ct.Foreground(ct.Green, false)
+		fmt.Println("Domain added.")
+		ct.ResetColor()
+		if askYesOrNo("Do you want add another domain <%s> ? ", true) {
+			continue
+		}
 		break
 	}
 	return nil
@@ -66,36 +70,22 @@ func (s *StepDomain) findDomain(domainNameOrInt string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	numDomain, err := strconv.Atoi(domainNameOrInt)
-	if err == nil {
-		if numDomain < 0 || numDomain > len(domains) - 1 {
-			return "", errors.New("Not a valid domain.")
-		}
-		return domains[numDomain], nil
+	domain, err := s.findDatabyNameOrId(domains, domainNameOrInt)
+	if err != nil && IsNotValidData(err) {
+		return "", errors.New("Not a valid domain.")
+	}else if err != nil {
+		return "", errors.New("Domain not found.")
 	}
-	for _, domain := range domains {
-		if domain == domainNameOrInt {
-			return domain, nil
-		}
-	}
-	return "", errors.New("Domain not found.")
+	return domain, nil
 }
 func (s *StepDomain) getDomains() ([]string, error) {
 	if len(s.domains) > 0 {
 		return s.domains, nil
 	}
-	domainsTerminal, err := s.cliConnection.CliCommandWithoutTerminalOutput("domains")
+	domains, err := s.parseDataFromCli([]string{"domains"}, 2)
 	if err != nil {
 		return nil, err
 	}
-	if len(domainsTerminal) <= 2 {
-		return nil, errors.New(strings.Join(domainsTerminal, "\n"))
-	}
-	domainsUnparsed := domainsTerminal[2:]
-	var domainsParsed []string = make([]string, len(domainsUnparsed))
-	for index, domainUnparsed := range domainsUnparsed {
-		domainsParsed[index] = strings.Split(domainUnparsed, " ")[0]
-	}
-	s.domains = domainsParsed
-	return domainsParsed, nil
+	s.domains = domains
+	return domains, nil
 }

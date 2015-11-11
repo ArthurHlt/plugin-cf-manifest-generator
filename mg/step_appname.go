@@ -1,7 +1,7 @@
 package mg
 import (
 	"github.com/cloudfoundry/cli/plugin"
-	"github.com/cloudfoundry/cli/cf/manifest"
+	"github.com/ArthurHlt/plugin-cf-manifest-generator/mg/manifest"
 	"fmt"
 	"bufio"
 	"os"
@@ -12,11 +12,10 @@ type StepAppname struct {
 	Step
 }
 
-func NewStepAppname(cliConnection plugin.CliConnection, appManifest manifest.AppManifest, manifestPath string) *StepAppname {
+func NewStepAppname(cliConnection plugin.CliConnection, appManifest *manifest.Manifest) *StepAppname {
 	stepAppname := new(StepAppname)
 	stepAppname.appManifest = appManifest
 	stepAppname.cliConnection = cliConnection
-	stepAppname.manifestPath = manifestPath
 	return stepAppname
 }
 
@@ -35,16 +34,13 @@ func (s *StepAppname) Run() error {
 	if (appName == "") {
 		appName = defaultName
 	}
-	s.appName = appName
+	session.AppName = appName
 	s.appManifest.Memory(appName, 1024)
 	s.appManifest.Instances(appName, 1)
 	return nil
 }
-func (s *StepAppname) GetAppName() string {
-	return s.appName
-}
 func (s *StepAppname) defaultName() (string, error) {
-	defaultName := path.Base(path.Dir(s.manifestPath))
+	defaultName := path.Base(path.Dir(session.ManifestPath))
 	if defaultName != "." {
 		return defaultName, nil
 	}
