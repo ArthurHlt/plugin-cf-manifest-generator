@@ -5,7 +5,7 @@ go:
 script:
 - bin/test
 after_success:
-- sudo apt-get install php56
+- sudo apt-get install php5
 - bin/build-all.sh
 - bin/generate_description.sh
 deploy:
