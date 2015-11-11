@@ -12,12 +12,12 @@ plugins:
   homepage: https://github.com/ArthurHlt/plugin-cf-manifest-generator
   binaries:
   - platform: osx
-    url: %plugins.authors.0.homepage%/releases/download/v%plugins.version%/%plugins.name%_darwin_amd64
+    url: %plugins.homepage%/releases/download/v%plugins.version%/%plugins.name%_darwin_amd64
   - platform: win64
-    url: %plugins.authors.0.homepage%/releases/download/v%plugins.version%/%plugins.name%_windows_amd64.exe
+    url: %plugins.homepage%/releases/download/v%plugins.version%/%plugins.name%_windows_amd64.exe
   - platform: win32
-    url: %plugins.authors.0.homepage%/releases/download/v%plugins.version%/%plugins.name%_windows_386.exe
+    url: %plugins.homepage%/releases/download/v%plugins.version%/%plugins.name%_windows_386.exe
   - platform: linux64
-    url: %plugins.authors.0.homepage%/releases/download/v%plugins.version%/%plugins.name%_linux_amd64
+    url: %plugins.homepage%/releases/download/v%plugins.version%/%plugins.name%_linux_amd64
   - platform: linux32
-    url: %plugins.authors.0.homepage%/releases/download/v%plugins.version%/%plugins.name%_linux_386
+    url: %plugins.homepage%/releases/download/v%plugins.version%/%plugins.name%_linux_386

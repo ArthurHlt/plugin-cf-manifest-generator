@@ -12,17 +12,17 @@ plugins:
   homepage: https://github.com/ArthurHlt/plugin-cf-manifest-generator
   binaries:
     - platform: osx
-      url: https://github.com/ArthurHlt/releases/download/v1.0.0/manifest-generator_darwin_amd64
+      url: https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_darwin_amd64
       checksum: dd3201d15997a9ccad5f23ddfcde4c57f4286178
     - platform: win64
-      url: https://github.com/ArthurHlt/releases/download/v1.0.0/manifest-generator_windows_amd64.exe
+      url: https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_windows_amd64.exe
       checksum: ff7b4132746799e66c9bad4f92591dcea3d22782
     - platform: win32
-      url: https://github.com/ArthurHlt/releases/download/v1.0.0/manifest-generator_windows_386.exe
+      url: https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_windows_386.exe
       checksum: 270af92fc97613d5bff79122ce313739fd8dde0f
     - platform: linux64
-      url: https://github.com/ArthurHlt/releases/download/v1.0.0/manifest-generator_linux_amd64
+      url: https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_linux_amd64
       checksum: 9bb10f8a2303fbf70dfb6d2490a8550ffcb3fda8
     - platform: linux32
-      url: https://github.com/ArthurHlt/releases/download/v1.0.0/manifest-generator_linux_386
+      url: https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_linux_386
       checksum: 9f90d16295ffce2e4e310637f566c6516787da77
