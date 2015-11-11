@@ -5,6 +5,7 @@ go:
 script:
 - bin/test
 after_success:
+- sudo apt-get update
 - sudo apt-get install php5
 - bin/build-all.sh
 - bin/generate_description.sh
