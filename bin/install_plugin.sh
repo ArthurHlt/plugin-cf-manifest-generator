@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 CURRENTDIR=`pwd`
-PLUGIN_PATH="$CURRENTDIR/out/plugin-cf-manifest-generator"
+PLUGIN_PATH="$CURRENTDIR/out/manifest-generator"
 
 $CURRENTDIR/bin/build
 cf uninstall-plugin manifest-generator

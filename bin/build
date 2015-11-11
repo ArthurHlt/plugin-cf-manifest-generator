@@ -6,4 +6,4 @@ echo -e "\nGenerating Binary..."
 
 CURRENTDIR=`pwd`
 
-go build -o $CURRENTDIR/out/plugin-cf-manifest-generator
+go build -o $CURRENTDIR/out/manifest-generator

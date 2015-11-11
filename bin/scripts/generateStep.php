@@ -6,9 +6,9 @@ if (count($argv) < 3) {
 }
 $stepName = $argv[1];
 $defaultValue = $argv[2];
-$file = sprintf(__DIR__ . '/../mg/step_%s.go', strtolower($stepName));
+$file = sprintf(__DIR__ . '/../../mg/step_%s.go', strtolower($stepName));
 ob_start();
-include_once __DIR__ . '/template/template.php';
+include_once __DIR__ . '/../template/template.php';
 $stepFile = ob_get_contents();
 ob_end_clean();
 
