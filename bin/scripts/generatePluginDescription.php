@@ -31,11 +31,14 @@ foreach ($binaries as &$binary) {
     $binary['checksum'] = $checksum;
 }
 $dataString = Yaml::dump($data, 10, 2);
+
+//sanitize just for repo-index.yml in cloudfoundry community plugin repo
 $dataString = str_replace("'", "", $dataString);
 $dataString = str_replace("null", "", $dataString);
 $dataString = str_replace("\n    -", "", $dataString);
 $dataString = str_replace("  platform:", "- platform:", $dataString);
 $dataString = str_replace("authors:\n      name:", "authors:\n    - name:", $dataString);
+/*******************************/
 file_put_contents($output, $dataString);
 
 echo "Description generated in 'repo-index.yml'";
