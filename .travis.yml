@@ -1,0 +1,8 @@
+language: go
+go:
+- 1.5
+script:
+- bin/test
+after_success:
+- bin/build-all.sh
+
