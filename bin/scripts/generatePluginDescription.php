@@ -35,6 +35,7 @@ $dataString = str_replace("'", "", $dataString);
 $dataString = str_replace("null", "", $dataString);
 $dataString = str_replace("\n    -", "", $dataString);
 $dataString = str_replace("  platform:", "- platform:", $dataString);
+$dataString = str_replace("authors:\n      name:", "authors:\n    - name:", $dataString);
 file_put_contents($output, $dataString);
 
 echo "Description generated in 'repo-index.yml'";

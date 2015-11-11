@@ -6,7 +6,7 @@ plugins:
   updated: 2015-11-11
   company: 
   authors:
-      name: Arthur Halet
+    - name: Arthur Halet
       homepage: https://github.com/ArthurHlt
       contact: arthurh.halet@gmail.com
   homepage: https://github.com/ArthurHlt/plugin-cf-manifest-generator
