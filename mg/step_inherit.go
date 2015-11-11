@@ -40,7 +40,7 @@ func (s *StepInherit) Run() error {
 				continue
 			}
 		}
-		s.appManifest.Inherit(session.AppName, inherit)
+		s.appManifest.Inherit(inherit)
 		break
 	}
 	return nil

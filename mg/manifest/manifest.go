@@ -21,7 +21,6 @@ func (m *Manifest) FileSavePath(manifestPath string) {
 func (m *Manifest) Save() error {
 	var data []byte
 	var err error
-	m.clean()
 	if len(m.Content.Applications) == 1 {
 		data, err = yaml.Marshal(m.Content.Applications[0])
 	}else {
@@ -35,16 +34,6 @@ func (m *Manifest) Save() error {
 		return err
 	}
 	return nil
-}
-func (m *Manifest) clean() {
-	if len(m.Content.Applications) <= 1 {
-		return
-	}
-	for _, app := range m.Content.Applications {
-		if app.Inherit != "" {
-			m.Inherit(app.Name, app.Inherit)
-		}
-	}
 }
 func (m *Manifest) Instances(appName string, instances int) {
 	index := m.FindOrCreateApp(appName)
@@ -99,17 +88,12 @@ func (m *Manifest) NoHostname(appName string, noHostname bool) {
 	index := m.FindOrCreateApp(appName)
 	m.Content.Applications[index].NoHostname = noHostname
 }
-func (m *Manifest) Inherit(appName string, inherit string) {
-	index := m.FindOrCreateApp(appName)
-	if len(m.Content.Applications) == 2 {
-		m.Content.Applications[0].Inherit = ""
-	}
+func (m *Manifest) Inherit(inherit string) {
 	if len(m.Content.Applications) > 1 {
 		m.Content.Inherit = inherit
 	}else {
-		m.Content.Applications[index].Inherit = inherit
+		m.Content.Applications[0].Inherit = inherit
 	}
-
 }
 func (m *Manifest) Stack(appName string, stack string) {
 	index := m.FindOrCreateApp(appName)

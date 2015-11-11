@@ -21,6 +21,7 @@ type Generator struct {
 	Session       *Session
 	steps         []StepInterface
 	stepsDetails  []StepInterface
+	stepsFinal    []StepInterface
 }
 var session *Session = &Session{}
 func NewGenerator(manifestPath string, cliConnection plugin.CliConnection) *Generator {
@@ -39,31 +40,36 @@ func (g *Generator) Generate() error {
 	}
 	g.appManifest.FileSavePath(manifestPath)
 	for true {
-		for _, step := range g.getSteps() {
-			err = step.Run()
+		err = runSteps(g.getSteps())
+		if err != nil {
+			return err
+		}
+		if askYesOrNo("Do you want set more detailed informations <%s> ? ", true) {
+			err = runSteps(g.getStepsDetails())
 			if err != nil {
 				return err
 			}
-			fmt.Print("\n")
-		}
-		if askYesOrNo("Do you want set more detailed informations <%s> ? ", true) {
-			for _, step := range g.getStepsDetails() {
-				err = step.Run()
-				if err != nil {
-					return err
-				}
-				fmt.Print("\n")
-			}
-		}
-		err = g.appManifest.Save()
-		if err != nil {
-			return err
 		}
 		ct.Foreground(ct.Green, false)
 		fmt.Println(fmt.Sprintf("App %s has been added.\n", session.AppName))
 		ct.ResetColor()
-		if !askYesOrNo("Do you want to add an other app <%s> ? ", true) {
+		if !askYesOrNo("Do you want to add another app <%s> ? ", true) {
 			break;
+		}
+		fmt.Print("\n")
+	}
+	err = runSteps(g.getStepsFinal())
+	if err != nil {
+		return err
+	}
+	err = g.appManifest.Save()
+	return err
+}
+func runSteps(steps []StepInterface) error {
+	for _, step := range steps {
+		err := step.Run()
+		if err != nil {
+			return err
 		}
 		fmt.Print("\n")
 	}
@@ -83,6 +89,16 @@ func (g *Generator) getStepsDetails() []StepInterface {
 	g.stepsDetails = stepsDetails
 	return stepsDetails
 }
+func (g *Generator) getStepsFinal() []StepInterface {
+	if len(g.stepsFinal) > 0 {
+		return g.stepsFinal
+	}
+	steps := []StepInterface{
+		NewStepInherit(g.cliConnection, g.appManifest),
+	}
+	g.stepsFinal = steps
+	return steps
+}
 func (g *Generator) getSteps() []StepInterface {
 	if len(g.steps) > 0 {
 		return g.steps
@@ -98,7 +114,6 @@ func (g *Generator) getSteps() []StepInterface {
 		NewStepService(g.cliConnection, g.appManifest),
 		NewStepEnv(g.cliConnection, g.appManifest),
 		NewStepCommand(g.cliConnection, g.appManifest),
-		NewStepInherit(g.cliConnection, g.appManifest),
 	}
 	g.steps = steps
 	return steps
