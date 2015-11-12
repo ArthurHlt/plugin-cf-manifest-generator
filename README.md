@@ -45,7 +45,7 @@ $ cf install-plugin $GOPATH/bin/manifest-generator
 $ cf install-plugin $env:GOPATH/bin/manifest-generator.exe
 ```
 
-64bit:
+32bit:
 
 ```bash
 #in your browser download https://github.com/ArthurHlt/plugin-cf-manifest-generator/releases/download/v1.0.0/manifest-generator_windows_386.exe and place it in $GOPATH/bin/manifest-generator.exe
