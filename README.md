@@ -4,7 +4,7 @@ Create a manifest file from 0.
 
 Currently Cloud Foundry Cli can only generate a manifest file from an existing app. This plugin help you to create one without using an existing app.
 
-Manifest-generator will ask you some questions.
+Manifest-generator will ask you some questions to generate manifest. It will also find data from your Cloud Foundry instance to generate it.
 
 You can see it in action here:
 ![manifest-generator](/img/manifest-generator.gif "Demo manifest-generator")
