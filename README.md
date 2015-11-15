@@ -9,8 +9,14 @@ Manifest-generator will ask you some questions to generate manifest. It will als
 You can see it in action here:
 ![manifest-generator](/img/manifest-generator.gif "Demo manifest-generator")
 
+## Installation from cf cli (prefered)
 
-## installation from release binaries
+```bash
+$ cf add-plugin-repo CF-Community http://plugins.cloudfoundry.org/
+$ cf install-plugin manifest-generator -r CF-Community
+```
+
+## Installation from release binaries
 
 #### On OSX using release binaries
 
